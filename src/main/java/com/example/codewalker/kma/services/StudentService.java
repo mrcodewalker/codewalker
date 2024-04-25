@@ -42,4 +42,9 @@ public class StudentService implements IStudentService{
         }
         return null;
     }
+
+    @Override
+    public boolean existByStudentCode(String studentCode) {
+        return studentRepository.existByStudentCode(studentCode);
+    }
 }

@@ -10,4 +10,5 @@ public interface IStudentService {
     List<Student> findByName(String studentName);
     List<Student> findByClass(String studentClass);
     Student createStudent(Student student);
+    boolean existByStudentCode(String studentCode);
 }

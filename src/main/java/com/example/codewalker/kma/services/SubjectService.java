@@ -14,21 +14,24 @@ import java.util.Optional;
 public class SubjectService implements ISubjectService {
     private final SubjectRepository subjectRepository;
 
-    @Override
-    public boolean findBySubjectName(String subjectName) {
-        if (subjectRepository.findBySubjectName(subjectName).getSubjectName().length()>=1){
-            return true;
-        }
-        return false;
-    }
+//    @Override
+//    public boolean findBySubjectName(String subjectName) {
+//        if (subjectRepository.findBySubjectName(subjectName)!=null){
+//            return true;
+//        }
+//        return false;
+//    }
 
     @Override
     public Subject createSubject(Subject subject) {
+        if (subjectRepository.findBySubjectName(subject.getSubjectName())!=null){
+            return null;
+        }
         return subjectRepository.save(subject);
     }
 
     @Override
-    public Subject findSubjectByname(String subjectName) {
+    public Subject findSubjectByName(String subjectName) {
         return subjectRepository.findBySubjectName(subjectName);
     }
 
@@ -39,5 +42,15 @@ public class SubjectService implements ISubjectService {
             return subject.get();
         }
         return null;
+    }
+
+    @Override
+    public boolean existBySubjectName(String subjectName) {
+        return subjectRepository.existBySubjectName(subjectName);
+    }
+
+    @Override
+    public List<Subject> findAll() {
+        return subjectRepository.findAll();
     }
 }

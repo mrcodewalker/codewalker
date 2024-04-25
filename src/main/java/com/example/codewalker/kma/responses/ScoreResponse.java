@@ -1,0 +1,33 @@
+package com.example.codewalker.kma.responses;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
+
+@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class ScoreResponse {
+    @JsonProperty("student_response")
+    private StudentResponse studentResponse;
+
+    @JsonProperty("subject_response")
+    private SubjectResponse subjectResponse;
+
+    @JsonProperty("score_text")
+    private String scoreText;
+
+    @JsonProperty("score_first")
+    private Float scoreFirst;
+
+    @JsonProperty("score_second")
+    private Float scoreSecond;
+
+    @JsonProperty("score_final")
+    private Float scoreFinal;
+
+    @JsonProperty("score_over_rall")
+    private Float scoreOverall;
+}
