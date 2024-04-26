@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.text.Normalizer;
 import java.util.*;
 @RestController
 @RequiredArgsConstructor
@@ -35,13 +36,12 @@ public class PDFReader {
 
     @PostMapping("/score")
     public ResponseEntity<?> ReadPDFFile() throws Exception {
-        File file = new File("C:\\Users\\ADMIN\\Downloads\\23_24_2.pdf");
+        File file = new File("C:\\Users\\ADMIN\\MyWebsite\\codewalker.kma\\codewalker.kma\\src\\main\\resources\\storage\\nam2023_2024_ki1_dot2.pdf");
         FileInputStream fileInputStream = new FileInputStream(file);
         Map<String, Integer> allSubjects = new LinkedHashMap<>();
         errors.add("N25");
         errors.add("N100");
         errors.add("TKD");
-
         PDDocument pdfDocument = PDDocument.load(fileInputStream);
         System.out.println(pdfDocument.getPages().getCount());
 
@@ -76,16 +76,26 @@ public class PDFReader {
                                 secondWord = secondWord.substring(0, index).trim();
                             }
                         }
-                        if (secondWord.contains("CT")||secondWord.contains("DT")||secondWord.contains("AT")){
+                        if (secondWord.contains("CT")||secondWord.contains("DT")||secondWord.contains("AT")
+                        || secondWord.contains("CNTT") || secondWord.contains("ĐTVT") || secondWord.contains("ATTT")
+                        || secondWord.contains("(")){
                             int indexCT = secondWord.indexOf("CT");
                             int indexDT = secondWord.indexOf("DT");
                             int indexAT = secondWord.indexOf("AT");
+                            int indexCNTT = secondWord.indexOf("CNTT");
+                            int indexATTT = secondWord.indexOf("ATTT");
+                            int indexDTVT = secondWord.indexOf("ĐTVT");
+                            int indexCharacter = secondWord.indexOf("(");
 
                             int minIndex = -1;
-                            if (indexCT >= 0 || indexDT >= 0 || indexAT >= 0) {
+                            if (indexCT >= 0 || indexDT >= 0 || indexAT >= 0 || indexCNTT >=0 || indexATTT >=0 || indexDTVT>=0 || indexCharacter >=0) {
                                 minIndex = Math.min(indexCT >= 0 ? indexCT : Integer.MAX_VALUE,
                                         Math.min(indexDT >= 0 ? indexDT : Integer.MAX_VALUE,
-                                                indexAT >= 0 ? indexAT : Integer.MAX_VALUE));
+                                                Math.min(indexAT >= 0 ? indexAT : Integer.MAX_VALUE,
+                                                        Math.min(indexCNTT >= 0 ? indexCNTT-1 : Integer.MAX_VALUE,
+                                                                Math.min(indexATTT >=0 ? indexATTT-1 : Integer.MAX_VALUE,
+                                                                        Math.min(indexDTVT >=0 ? indexDTVT-1 : Integer.MAX_VALUE,
+                                                                                indexCharacter >=0 ? indexCharacter : Integer.MAX_VALUE))))));
                             }
 
                             if (minIndex >= 0) {
@@ -98,6 +108,10 @@ public class PDFReader {
                             if (allSubjects.get(secondWord.trim())==null||allSubjects.get(secondWord.trim())==0){
                                 allSubjects.put(secondWord.trim(),1);
                             }
+                        }
+                        if (secondWord.contains("HTTT")){
+                            secondWord = secondWord.substring(0,secondWord.indexOf("HTTT")).trim()+" hệ thống thông tin";
+                            secondWord.trim();
                         }
                         subjects.put(firstWord, secondWord.trim());
                     } else {
@@ -112,6 +126,7 @@ public class PDFReader {
                 this.subjectService.createSubject(Subject.builder()
                                 .subjectName(entry.getValue())
                         .build());
+//                System.out.println(entry.getValue());
             }
         }
         for (Map.Entry<String, Integer> entry: allSubjects.entrySet()){
@@ -119,9 +134,9 @@ public class PDFReader {
                 this.specialCase.add(Pair.of(entry.getKey(), entry.getValue()));
             }
         }
-//        System.out.println(this.specialCase);
+        System.out.println(this.specialCase);
         boolean passedSubjects = false;
-        collectAllSubjects();
+        collectAllSubjects(file.getPath());
 
         for (String line : lines) {
             int spaceIndex = line.indexOf(" ");
@@ -202,7 +217,7 @@ public class PDFReader {
                                 studentService.createStudent(student);
 
                                 if (rows<0||this.listSubjectsName.size()==0) continue;
-                            Subject subject = Subject.builder()
+                               Subject subject = Subject.builder()
                                     .subjectName(this.listSubjectsName.get(rows))
                                     .id(subjectService.findSubjectByName(this.listSubjectsName.get(rows)).getId())
                                     .build();
@@ -212,7 +227,7 @@ public class PDFReader {
 //                                return null;
 //                            }
 
-
+//
                                 Score score = Score.builder()
                                         .scoreFirst(scoreFirst)
                                         .scoreFinal(scoreFinal)
@@ -234,10 +249,10 @@ public class PDFReader {
         pdfDocument.close();
         return null;
     }
-    public void collectAllSubjects() throws Exception {
-        File file = new File("C:\\Users\\ADMIN\\Downloads\\23_24_2.pdf");
+    public void collectAllSubjects(String pathName) throws Exception {
+        File file = new File(pathName);
         FileInputStream fileInputStream = new FileInputStream(file);
-        Map<String,String> list = new LinkedHashMap<>();
+        Map<String, String> list = new LinkedHashMap<>();
         errors.add("N25");
         errors.add("N100");
         errors.add("TKD");
@@ -266,7 +281,7 @@ public class PDFReader {
 
                 String secondWord = line.substring(spaceIndex + 1);
 
-                if (firstWord.length()<=2&&!firstWord.isEmpty()&&firstWord.matches("[1-9][0-9]?")){
+                if (firstWord.length() <= 2 && !firstWord.isEmpty() && firstWord.matches("[1-9][0-9]?")) {
                     if (!idSubjects.contains(firstWord)) {
                         idSubjects.add(firstWord);
                     } else break;
@@ -278,10 +293,24 @@ public class PDFReader {
         List<String> subjectsName = new ArrayList<>();
         for (Subject subject : subjectList) {
             String subjectName = subject.getSubjectName();
-            subjectsName.add(subjectName);
+            subjectsName.add(subjectName.trim());
         }
 //        for (Map.Entry<String, String> entry: subjects.entrySet()){ // All Subjects
 //            System.out.println(entry.getKey()+" "+entry.getValue());
+//        }
+//        for (int i=0 ;i < subjectsName.size();i++){
+//            System.out.println(i+ " "+subjectsName.get(i));
+//        }
+        // Lập trình nhân Linux
+//        String str1 = "Lập trình nhân Linux"; database
+//        String str2 = "Lập trình nhân Linux"; pdf file
+//        str1 = Normalizer.normalize(str1, Normalizer.Form.NFD).replaceAll("\\p{M}", "");
+//        str2 = Normalizer.normalize(str2, Normalizer.Form.NFD).replaceAll("\\p{M}", "");
+
+//        if (str1.equals(str2)) {
+//            System.out.println("Hai chuỗi giống nhau.");
+//        } else {
+//            System.out.println("Hai chuỗi không giống nhau.");
 //        }
         boolean passedSubjects = false;
         for (String line : lines) {
@@ -299,41 +328,58 @@ public class PDFReader {
                     }
                 }
             }
+//            System.out.println(subjectsName.contains("Lập trình nhân Linux"));
             if (passedSubjects) {
+//              && subjectsName.stream().anyMatch(line::contains)
+                String each[] = line.split(" ");
+//                if (line.contains("Lập trình nhân Linux")){
+//                    System.out.println(line);
+//                }
+                if (each.length > 0 && each[0].matches(".*\\d.*")) continue;
                 for (String subjectName : subjectsName) {
-                        int index = line.lastIndexOf("-");
-                        if (index != -1) {
-                            String subjectNameLine = line.substring(0, index).trim();
-                            if (subjectNameLine.equals(subjectName)){
-                               if (!this.listSubjectsName.contains(subjectName)) this.listSubjectsName.add(subjectName);
-                               else {
-                                   if (this.listSubjectsName.get(this.listSubjectsName.size()-1).equals(subjectName)){
-                                       continue;
-                                   } else {
-                                       for (int i = 0; i < this.specialCase.size(); i++) {
-                                           Pair<String, Integer> clone = this.specialCase.get(i);
-                                           if (clone.getLeft().equals(subjectName) && clone.getRight() > 1) {
-                                               Pair<String, Integer> suffix = Pair.of(clone.getLeft(), clone.getRight() - 1);
-                                               this.listSubjectsName.add(subjectName);
-                                               this.specialCase.set(i, suffix);
-                                           }
-                                       }
-                                   }
-                               }
-                        } else {
-                            // Xử lý trường hợp không tìm thấy dấu "-"
-                            System.out.println("Không tìm thấy dấu '-' trong chuỗi.");
+                    int index = line.lastIndexOf("-");
+                    if (index != -1) {
+                        String subjectNameLine = line.substring(0, index).trim();
+                        if (subjectNameLine.contains("(")) {
+                            subjectNameLine = subjectNameLine.substring(0, subjectNameLine.indexOf("(")).trim();
                         }
+//                        System.out.println(subjectNameLine);
+                        // Lập trình nhân Linux
+//                        subjectNameLine= Normalizer.normalize(subjectNameLine, Normalizer.Form.NFD).replaceAll("\\p{M}", "");
+//                        subjectName = Normalizer.normalize(subjectName, Normalizer.Form.NFD).replaceAll("\\p{M}", "");
+                        if (subjectNameLine.equals(subjectName)
+                        || Normalizer.normalize(subjectNameLine, Normalizer.Form.NFD).replaceAll("\\p{M}", "").equals(
+                                Normalizer.normalize(subjectName, Normalizer.Form.NFD).replaceAll("\\p{M}", "")
+                        )) {
+                            if (!this.listSubjectsName.contains(subjectName)) this.listSubjectsName.add(subjectName);
+                            else {
+                                if (this.listSubjectsName.get(this.listSubjectsName.size() - 1).equals(subjectName)) {
+                                    continue;
+                                } else {
+                                    for (int i = 0; i < this.specialCase.size(); i++) {
+                                        Pair<String, Integer> clone = this.specialCase.get(i);
+                                        if (clone.getLeft().equals(subjectName) && clone.getRight() > 1) {
+                                            Pair<String, Integer> suffix = Pair.of(clone.getLeft(), clone.getRight() - 1);
+                                            this.listSubjectsName.add(subjectName);
+                                            this.specialCase.set(i, suffix);
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+
+                        }
+//                    }
                     }
-                }
-//                System.out.println(line);
-            }
-            int cnt = 0;
-         for (String clone : listSubjectsName){
-             System.out.println(cnt+ " "+clone);
-             cnt++;
-         }
+//                    System.out.println(line);
 //            System.out.println(listSubjectsName.size());
+                }
+            }
+//            int cnt = 0;
+//            for (String clone : listSubjectsName) {
+//                System.out.println(cnt + " " + clone);
+//                cnt++;
+//            }
         }
     }
     @GetMapping("/read/{path}")
@@ -377,7 +423,7 @@ public class PDFReader {
             }
 
         }
-        this.collectAllSubjects();
+//        this.collectAllSubjects();
         List<Subject> subjectList = subjectService.findAll();
         List<String> subjectsName = new ArrayList<>();
         for (Subject subject : subjectList) {

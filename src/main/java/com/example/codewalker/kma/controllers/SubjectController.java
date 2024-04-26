@@ -17,4 +17,8 @@ public class SubjectController {
     public ResponseEntity<?> getSubjectByName(@RequestParam("subject_name") String subjectName){
         return ResponseEntity.ok(subjectService.findSubjectByName(subjectName));
     }
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllSubjects(){
+        return ResponseEntity.ok(subjectService.findAll());
+    }
 }
