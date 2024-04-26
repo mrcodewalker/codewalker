@@ -2,9 +2,11 @@ package com.example.codewalker.kma.services;
 
 import com.example.codewalker.kma.models.Student;
 import com.example.codewalker.kma.repositories.StudentRepository;
+import com.example.codewalker.kma.responses.StudentResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 @Service
 @RequiredArgsConstructor
@@ -46,5 +48,20 @@ public class StudentService implements IStudentService{
     @Override
     public boolean existByStudentCode(String studentCode) {
         return studentRepository.existByStudentCode(studentCode);
+    }
+
+    @Override
+    public List<StudentResponse> getStudentsByName(String studentName) {
+        List<Student> students = this.studentRepository.findStudentsBySimilarName(studentName);
+        List<StudentResponse> list = new ArrayList<>();
+        for (Student student : students){
+            StudentResponse studentResponse = StudentResponse.builder()
+                    .studentCode(student.getStudentCode())
+                    .studentName(student.getStudentName())
+                    .studentClass(student.getStudentClass())
+                    .build();
+            list.add(studentResponse);
+        }
+        return list;
     }
 }

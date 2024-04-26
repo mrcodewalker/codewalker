@@ -7,7 +7,6 @@ import com.example.codewalker.kma.repositories.SubjectRepository;
 import com.example.codewalker.kma.services.ScoreService;
 import com.example.codewalker.kma.services.StudentService;
 import com.example.codewalker.kma.services.SubjectService;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.RequiredArgsConstructor;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -18,13 +17,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.text.Normalizer;
 import java.util.*;
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("${api.prefix}/students")
-public class PDFReader {
+@RequestMapping("${api.prefix}/scores")
+public class ScoreController {
     // Path =  "C:\Users\ADMIN\Downloads\test.pdf"
     private final SubjectService subjectService;
     private final StudentService studentService;

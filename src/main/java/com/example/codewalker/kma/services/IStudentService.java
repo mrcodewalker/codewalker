@@ -1,6 +1,7 @@
 package com.example.codewalker.kma.services;
 
 import com.example.codewalker.kma.models.Student;
+import com.example.codewalker.kma.responses.StudentResponse;
 
 import java.util.List;
 
@@ -11,4 +12,5 @@ public interface IStudentService {
     List<Student> findByClass(String studentClass);
     Student createStudent(Student student);
     boolean existByStudentCode(String studentCode);
+    List<StudentResponse> getStudentsByName(String studentName);
 }
