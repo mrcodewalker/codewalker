@@ -24,7 +24,7 @@ public class SubjectService implements ISubjectService {
 
     @Override
     public Subject createSubject(Subject subject) {
-        if (subjectRepository.findBySubjectName(subject.getSubjectName())!=null){
+        if (subjectRepository.findFirstBySubjectName(subject.getSubjectName())!=null){
             return null;
         }
         return subjectRepository.save(subject);
@@ -32,7 +32,7 @@ public class SubjectService implements ISubjectService {
 
     @Override
     public Subject findSubjectByName(String subjectName) {
-        return subjectRepository.findBySubjectName(subjectName);
+        return subjectRepository.findFirstBySubjectName(subjectName);
     }
 
     @Override

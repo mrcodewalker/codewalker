@@ -10,8 +10,6 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class ScoreResponse {
-    @JsonProperty("student_response")
-    private StudentResponse studentResponse;
 
     @JsonProperty("subject_response")
     private SubjectResponse subjectResponse;

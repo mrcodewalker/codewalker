@@ -31,6 +31,7 @@ public class ScoreController {
     public List<String> errors = new ArrayList<>();
     private List<String> listSubjectsName = new ArrayList<>();
     private List<Pair<String,Integer>> specialCase = new ArrayList<>();
+    private Integer totalSubjects = 0;
 
     @PostMapping("/score")
     public ResponseEntity<?> ReadPDFFile() throws Exception {
@@ -102,14 +103,19 @@ public class ScoreController {
                         }
                         if (allSubjects.get(secondWord.trim())!=null&&allSubjects.get(secondWord.trim())>=1) {
                             allSubjects.put(secondWord.trim(), allSubjects.get(secondWord.trim()) + 1);
+                            totalSubjects++;
                         } else {
                             if (allSubjects.get(secondWord.trim())==null||allSubjects.get(secondWord.trim())==0){
                                 allSubjects.put(secondWord.trim(),1);
+                                totalSubjects++;
                             }
                         }
                         if (secondWord.contains("HTTT")){
                             secondWord = secondWord.substring(0,secondWord.indexOf("HTTT")).trim()+" hệ thống thông tin";
                             secondWord.trim();
+                        }
+                        if (secondWord.contains("&")) {
+                            secondWord = secondWord.replace("&", "và");
                         }
                         subjects.put(firstWord, secondWord.trim());
                     } else {
@@ -150,11 +156,13 @@ public class ScoreController {
                         continue;
                     }
                     if (passedSubjects){
-                        if (firstWord.equals("1")){
+                        if (firstWord.equals("1")&&secondWord.split(" ").length>7){
+//                            System.out.println(firstWord+ " "+secondWord);
                             rows++;
                         }
                         String data[] = secondWord.split(" ");
                         if (data[0].equals("0")) continue;
+                        if (data.length<8) continue;
                         String studentCode = data[1];
                         String studentName = "";
                         int mark = 4;
@@ -200,7 +208,7 @@ public class ScoreController {
                             if (!Arrays.asList(invalidScores).contains(scoreText.toUpperCase())) continue;
                         } else continue;
                         if (scoreFirst>=0&&scoreSecond>=0&&scoreFinal>=0&&scoreOverRall>=0) {
-
+//
                                 Student student = Student.builder()
                                         .studentClass(studentClass)
                                         .studentCode(studentCode)
@@ -215,17 +223,13 @@ public class ScoreController {
                                 studentService.createStudent(student);
 
                                 if (rows<0||this.listSubjectsName.size()==0) continue;
+                                if (rows>this.listSubjectsName.size()) continue;
                                Subject subject = Subject.builder()
                                     .subjectName(this.listSubjectsName.get(rows))
                                     .id(subjectService.findSubjectByName(this.listSubjectsName.get(rows)).getId())
                                     .build();
-
-//                            if (student.getStudentId()==1109){
-//                                System.out.println(this.listSubjectsName.get(rows-1));
-//                                return null;
-//                            }
-
 //
+////
                                 Score score = Score.builder()
                                         .scoreFirst(scoreFirst)
                                         .scoreFinal(scoreFinal)
@@ -235,8 +239,8 @@ public class ScoreController {
                                         .student(student)
                                         .subject(subject)
                                         .build();
-//                                System.out.println(score);
                                 scoreService.createScore(score);
+////                                System.out.println(score);
 
                         }
                     }
@@ -310,6 +314,9 @@ public class ScoreController {
 //        } else {
 //            System.out.println("Hai chuỗi không giống nhau.");
 //        }
+        // Tín hiệu và hệ thống database
+        // Tín hiệu và hệ thống file
+
         boolean passedSubjects = false;
         for (String line : lines) {
             int spaceIndex = line.indexOf(" ");
@@ -335,9 +342,32 @@ public class ScoreController {
 //                }
                 if (each.length > 0 && each[0].matches(".*\\d.*")) continue;
                 for (String subjectName : subjectsName) {
-                    int index = line.lastIndexOf("-");
-                    if (index != -1) {
-                        String subjectNameLine = line.substring(0, index).trim();
+                    int indexDash = line.lastIndexOf("-");
+                    int indexCT = line.lastIndexOf("CT");
+                    int indexDT = line.lastIndexOf("DT");
+                    int indexAT = line.lastIndexOf("AT");
+
+                    int[] indices = {indexDash, indexCT, indexDT, indexAT};
+
+                    int minIndex = Integer.MAX_VALUE;
+                    int checkDash = 0;
+                    for (int index : indices) {
+                        if (index != -1 && index < minIndex) {
+                            minIndex = index;
+                        } else checkDash++;
+                    }
+                    String subjectNameLine = "";
+                    if(checkDash==4){
+                        subjectNameLine = line.trim();
+                    }
+//                    System.out.println("OK "+subjectNameLine);
+                    if (minIndex != Integer.MAX_VALUE || checkDash==4) {
+                        if (checkDash!=4) {
+                            subjectNameLine = line.substring(0, minIndex).trim();
+                        } else {
+                            subjectNameLine = subjectNameLine.trim();
+                        }
+
                         if (subjectNameLine.contains("(")) {
                             subjectNameLine = subjectNameLine.substring(0, subjectNameLine.indexOf("(")).trim();
                         }
@@ -345,18 +375,36 @@ public class ScoreController {
                         // Lập trình nhân Linux
 //                        subjectNameLine= Normalizer.normalize(subjectNameLine, Normalizer.Form.NFD).replaceAll("\\p{M}", "");
 //                        subjectName = Normalizer.normalize(subjectName, Normalizer.Form.NFD).replaceAll("\\p{M}", "");
-                        if (subjectNameLine.equals(subjectName)
-                        || Normalizer.normalize(subjectNameLine, Normalizer.Form.NFD).replaceAll("\\p{M}", "").equals(
-                                Normalizer.normalize(subjectName, Normalizer.Form.NFD).replaceAll("\\p{M}", "")
+                        if (subjectNameLine.equals(subjectName.trim())
+                                || Normalizer.normalize(subjectNameLine.trim(), Normalizer.Form.NFD).replaceAll("\\p{M}", "").equalsIgnoreCase(
+                                Normalizer.normalize(subjectName.trim(), Normalizer.Form.NFD).replaceAll("\\p{M}", "")
                         )) {
-                            if (!this.listSubjectsName.contains(subjectName)) this.listSubjectsName.add(subjectName);
-                            else {
-                                if (this.listSubjectsName.get(this.listSubjectsName.size() - 1).equals(subjectName)) {
+//                            System.out.println(subjectNameLine);
+                            int counting = 0;
+//                            if (!this.listSubjectsName.contains(subjectName)) this.listSubjectsName.add(subjectName);
+                            for (int i = 0; i < this.listSubjectsName.size(); i++) {
+                                if (this.listSubjectsName.get(i).equals(subjectName)
+                                        || Normalizer.normalize(this.listSubjectsName.get(i), Normalizer.Form.NFD).replaceAll("\\p{M}", "").equals(
+                                        Normalizer.normalize(subjectName, Normalizer.Form.NFD).replaceAll("\\p{M}", "")))
+                                    break;
+                                else {
+                                    counting++;
+                                }
+                            }
+                            if (counting == this.listSubjectsName.size()) {
+                                this.listSubjectsName.add(subjectName);
+                            } else {
+                                if (this.listSubjectsName.get(this.listSubjectsName.size() - 1).equals(subjectName)
+                                        || Normalizer.normalize(this.listSubjectsName.get(this.listSubjectsName.size() - 1), Normalizer.Form.NFD)
+                                        .replaceAll("\\p{M}", "").equals(
+                                                Normalizer.normalize(subjectName, Normalizer.Form.NFD).replaceAll("\\p{M}", ""))) {
                                     continue;
                                 } else {
                                     for (int i = 0; i < this.specialCase.size(); i++) {
                                         Pair<String, Integer> clone = this.specialCase.get(i);
-                                        if (clone.getLeft().equals(subjectName) && clone.getRight() > 1) {
+                                        if (clone.getLeft().equals(subjectName)
+                                                || Normalizer.normalize(clone.getLeft(), Normalizer.Form.NFD).replaceAll("\\p{M}", "").equals(
+                                                Normalizer.normalize(subjectName, Normalizer.Form.NFD).replaceAll("\\p{M}", "")) && clone.getRight() > 1) {
                                             Pair<String, Integer> suffix = Pair.of(clone.getLeft(), clone.getRight() - 1);
                                             this.listSubjectsName.add(subjectName);
                                             this.specialCase.set(i, suffix);

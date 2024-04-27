@@ -3,12 +3,14 @@ package com.example.codewalker.kma.services;
 import com.example.codewalker.kma.models.Score;
 import com.example.codewalker.kma.models.Student;
 import com.example.codewalker.kma.repositories.ScoreRepository;
+import com.example.codewalker.kma.responses.ListScoreResponse;
 import com.example.codewalker.kma.responses.ScoreResponse;
 import com.example.codewalker.kma.responses.StudentResponse;
 import com.example.codewalker.kma.responses.SubjectResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,8 +22,9 @@ public class ScoreService implements IScoreService{
     private final StudentService studentService;
 
     @Override
-    public List<ScoreResponse> getScoreByStudentCode(String studentCode) {
+    public ListScoreResponse getScoreByStudentCode(String studentCode) {
         Long studentId = studentService.findByStudentCode(studentCode).getStudentId();
+        Student student = this.studentService.findByStudentCode(studentCode);
         List<Score> list = scoreRepository.findByStudentId(studentId);
         List<ScoreResponse> data = new ArrayList<>();
         for (Score clone : list){
@@ -31,18 +34,20 @@ public class ScoreService implements IScoreService{
                     .scoreOverall(clone.getScoreOverall())
                     .scoreFirst(clone.getScoreFirst())
                     .scoreText(clone.getScoreText())
-                    .studentResponse(StudentResponse.builder()
-                            .studentClass(clone.getStudent().getStudentClass())
-                            .studentName(clone.getStudent().getStudentName())
-                            .studentCode(clone.getStudent().getStudentCode())
-                            .build())
                     .subjectResponse(SubjectResponse.builder()
                             .subjectName(clone.getSubject().getSubjectName())
                             .build())
                     .build();
             data.add(scoreResponse);
         }
-        return data;
+        return ListScoreResponse.builder()
+                .studentResponse(StudentResponse.builder()
+                        .studentClass(student.getStudentClass())
+                        .studentName(student.getStudentName())
+                        .studentCode(student.getStudentCode())
+                        .build())
+                .scoreResponses(data)
+                .build();
     }
     public List<Score> findByStudentCode(String studentCode){
         Student student = studentService.findByStudentCode(studentCode);
@@ -52,7 +57,9 @@ public class ScoreService implements IScoreService{
     public Score createScore(Score score) {
         List<Score> data = scoreRepository.findByStudentCode(score.getStudent().getStudentCode());
         for (Score entry : data){
-            if (entry.getSubject().equals(score.getSubject())){
+            if (entry.getSubject().getSubjectName().equals(score.getSubject().getSubjectName())
+        || Normalizer.normalize(entry.getSubject().getSubjectName(), Normalizer.Form.NFD).replaceAll("\\p{M}", "").equals(
+                    Normalizer.normalize(score.getSubject().getSubjectName(), Normalizer.Form.NFD).replaceAll("\\p{M}", ""))){
                 score.setId(entry.getId());
                 score.setScoreFirst(score.getScoreFirst());
                 score.setScoreOverall(score.getScoreOverall());
