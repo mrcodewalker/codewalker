@@ -20,4 +20,6 @@ public class Subject {
     private Long id;
     @Column(name="subject_name", nullable = false)
     private String subjectName;
+    @Column(name = "subject_credits")
+    private Long subjectCredits;
 }

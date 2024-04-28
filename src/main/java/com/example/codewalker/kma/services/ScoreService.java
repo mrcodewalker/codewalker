@@ -58,7 +58,7 @@ public class ScoreService implements IScoreService{
         List<Score> data = scoreRepository.findByStudentCode(score.getStudent().getStudentCode());
         for (Score entry : data){
             if (entry.getSubject().getSubjectName().equals(score.getSubject().getSubjectName())
-        || Normalizer.normalize(entry.getSubject().getSubjectName(), Normalizer.Form.NFD).replaceAll("\\p{M}", "").equals(
+        || Normalizer.normalize(entry.getSubject().getSubjectName(), Normalizer.Form.NFD).replaceAll("\\p{M}", "").equalsIgnoreCase(
                     Normalizer.normalize(score.getSubject().getSubjectName(), Normalizer.Form.NFD).replaceAll("\\p{M}", ""))){
                 score.setId(entry.getId());
                 score.setScoreFirst(score.getScoreFirst());
