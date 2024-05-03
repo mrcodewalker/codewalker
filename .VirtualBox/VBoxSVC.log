@@ -1,0 +1,78 @@
+00:00:00.005290 main     VirtualBox COM Server 7.0.4 r154605 win.amd64 (Nov 16 2022 15:33:13) release log
+00:00:00.005292 main     Log opened 2023-04-14T04:20:34.267499600Z
+00:00:00.005292 main     Build Type: release
+00:00:00.005296 main     OS Product: Windows 11
+00:00:00.005297 main     OS Release: 10.0.22621
+00:00:00.005297 main     OS Service Pack: 
+00:00:00.027853 main     DMI Product Name: ROG Strix G513IM_G513IM
+00:00:00.039804 main     DMI Product Version: 1.0
+00:00:00.039817 main     Firmware type: UEFI
+00:00:00.040445 main     Secure Boot: VERR_PRIVILEGE_NOT_HELD
+00:00:00.041381 main     Host RAM: 15791MB (15.4GB) total, 6128MB (5.9GB) available
+00:00:00.041386 main     Executable: C:\Program Files\Oracle\VirtualBox\VBoxSVC.exe
+00:00:00.041386 main     Process ID: 8400
+00:00:00.041386 main     Package type: WINDOWS_64BITS_GENERIC
+00:00:00.116084          VirtualBox: object creation starts
+00:00:00.117572          Home directory: 'C:\Users\ADMIN\.VirtualBox'
+00:00:00.118043          Installed Drivers:
+00:00:00.125983            C:\WINDOWS\system32\DRIVERS\VBoxNetLwf.sys (Version: 7.0.4.4605)
+00:00:00.127377            C:\WINDOWS\system32\DRIVERS\VBoxUSBMon.sys (Version: 7.0.4.4605)
+00:00:00.128359            C:\WINDOWS\system32\DRIVERS\VBoxSup.sys (Version: 7.0.4.4605)
+00:00:00.129996            C:\WINDOWS\system32\DRIVERS\VBoxNetAdp6.sys (Version: 7.0.4.4605)
+00:00:00.147082          Loading settings file "C:\Users\ADMIN\.VirtualBox\VirtualBox.xml" with version "1.12-windows"
+00:00:00.154401          usbLibGetDevices: Starting USB device enumeration
+00:00:00.176172          usbLibGetDevices: Found 3 USB devices, 0 captured
+00:00:00.177154          USB: Unknown USB device detected (idVendor: 0x1ea7, idProduct: 0x0064)
+00:00:00.218430          netIfIsWireless: CreateFile on '\\.\{DADA1380-9814-4DCE-A8F0-7991934377AB}' failed with rcWin=2 (0x2) - ignoring
+00:00:00.226113          HostDnsMonitor: initializing
+00:00:00.238766          HostDnsMonitor: updating information
+00:00:00.239590          HostDnsMonitor: old information
+00:00:00.239592            no server entries
+00:00:00.239593            no domain set
+00:00:00.239593            no search string entries
+00:00:00.239594          HostDnsMonitor: new information
+00:00:00.239594            server 1: 192.168.1.1
+00:00:00.239595            no domain set
+00:00:00.239595            no search string entries
+00:00:00.294013          VD: VDInit finished with VINF_SUCCESS
+00:00:00.309769          Loading settings file "C:\Users\ADMIN\AppData\Local\Genymobile\Genymotion\deployed\Samsung Galaxy S4\Samsung Galaxy S4.vbox" with version "1.19-windows"
+00:00:00.323255          Loading settings file "C:\Users\ADMIN\AppData\Local\Genymobile\Genymotion\deployed\Google Nexus 5\Google Nexus 5.vbox" with version "1.19-windows"
+00:00:00.325146          VirtualBox: object created
+00:00:00.400113          Saving settings file "C:\Users\ADMIN\.VirtualBox\VirtualBox.xml" with version "1.12-windows"
+00:00:00.413171          Finished saving settings file "C:\Users\ADMIN\.VirtualBox\VirtualBox.xml"
+00:00:00.413382          Saving settings file "C:\Users\ADMIN\.VirtualBox\VirtualBox.xml" with version "1.12-windows"
+00:00:00.416268          Finished saving settings file "C:\Users\ADMIN\.VirtualBox\VirtualBox.xml"
+00:00:00.416476          Saving settings file "C:\Users\ADMIN\.VirtualBox\VirtualBox.xml" with version "1.12-windows"
+00:00:00.419152          Finished saving settings file "C:\Users\ADMIN\.VirtualBox\VirtualBox.xml"
+00:00:02.822795          ERROR [COM]: aRC=VBOX_E_INVALID_VM_STATE (0x80bb0002) aIID={300763af-5d6b-46e6-aa96-273eac15538a} aComponent={MachineWrap} aText={The machine is not mutable (state is Aborted)}, preserve=false aResultDetail=0
+00:00:53.773921 USBPROXY usbLibGetDevices: Starting USB device enumeration
+00:00:53.793949 USBPROXY usbLibGetDevices: Found 3 USB devices, 0 captured
+00:08:58.378116 USBPROXY usbLibGetDevices: Starting USB device enumeration
+00:08:58.397576 USBPROXY usbLibGetDevices: Found 3 USB devices, 0 captured
+00:14:07.282678 dns-monitor HostDnsMonitor: updating information
+00:14:07.282716 dns-monitor HostDnsMonitor: unchanged
+00:16:10.816482 dns-monitor HostDnsMonitor: updating information
+00:16:10.816520 dns-monitor HostDnsMonitor: unchanged
+00:18:40.319821 dns-monitor HostDnsMonitor: updating information
+00:18:40.319856 dns-monitor HostDnsMonitor: unchanged
+00:24:50.806856 dns-monitor HostDnsMonitor: updating information
+00:24:50.806890 dns-monitor HostDnsMonitor: unchanged
+00:28:36.168280 USBPROXY usbLibGetDevices: Starting USB device enumeration
+00:28:36.186321 USBPROXY usbLibGetDevices: Found 3 USB devices, 0 captured
+00:29:07.288825 dns-monitor HostDnsMonitor: updating information
+00:29:07.288951 dns-monitor HostDnsMonitor: unchanged
+00:31:50.439375 main     VirtualBox: object deletion starts
+00:31:50.439464 main     ERROR [COM]: aRC=VBOX_E_OBJECT_IN_USE (0x80bb000c) aIID={ad47ad09-787b-44ab-b343-a082a3f2dfb1} aComponent={MediumWrap} aText={Medium 'C:\Users\ADMIN\AppData\Local\Genymobile\Genymotion\deployed\Samsung Galaxy S4\Snapshots/{fdef4196-0140-40b3-9e94-ba0d97d1f162}.vmdk' cannot be closed because it is still attached to 1 virtual machines}, preserve=false aResultDetail=0
+00:31:50.619638 main     ERROR [COM]: aRC=VBOX_E_OBJECT_IN_USE (0x80bb000c) aIID={ad47ad09-787b-44ab-b343-a082a3f2dfb1} aComponent={MediumWrap} aText={Medium 'C:\Users\ADMIN\AppData\Local\Genymobile\Genymotion\deployed\Samsung Galaxy S4\data.vmdk' cannot be closed because it is still attached to 1 virtual machines}, preserve=false aResultDetail=0
+00:31:50.619657 main     ERROR [COM]: aRC=VBOX_E_OBJECT_IN_USE (0x80bb000c) aIID={ad47ad09-787b-44ab-b343-a082a3f2dfb1} aComponent={MediumWrap} aText={Medium 'C:\Users\ADMIN\AppData\Local\Genymobile\Genymotion\deployed\Samsung Galaxy S4\Snapshots/{c43d55f2-2cb8-4d7e-91af-7f43ff0ef920}.vmdk' cannot be closed because it is still attached to 1 virtual machines}, preserve=false aResultDetail=0
+00:31:50.619670 main     ERROR [COM]: aRC=VBOX_E_OBJECT_IN_USE (0x80bb000c) aIID={ad47ad09-787b-44ab-b343-a082a3f2dfb1} aComponent={MediumWrap} aText={Medium 'C:\Users\ADMIN\AppData\Local\Genymobile\Genymotion\deployed\Samsung Galaxy S4\system.vmdk' cannot be closed because it is still attached to 1 virtual machines}, preserve=false aResultDetail=0
+00:31:50.633386 main     ERROR [COM]: aRC=E_ACCESSDENIED (0x80070005) aIID={6cc49055-dad4-4496-85cf-3f76bcb3b5fa} aComponent={SnapshotWrap} aText={The object is not ready}, preserve=false aResultDetail=0
+00:31:50.634221 main     ERROR [COM]: aRC=VBOX_E_OBJECT_IN_USE (0x80bb000c) aIID={ad47ad09-787b-44ab-b343-a082a3f2dfb1} aComponent={MediumWrap} aText={Medium 'C:\Users\ADMIN\AppData\Local\Genymobile\Genymotion\deployed\Google Nexus 5\Snapshots/{aa372ab6-ee4f-4c5f-80b4-fd2dd8ad8baa}.vmdk' cannot be closed because it is still attached to 1 virtual machines}, preserve=false aResultDetail=0
+00:31:50.634243 main     ERROR [COM]: aRC=VBOX_E_OBJECT_IN_USE (0x80bb000c) aIID={ad47ad09-787b-44ab-b343-a082a3f2dfb1} aComponent={MediumWrap} aText={Medium 'C:\Users\ADMIN\AppData\Local\Genymobile\Genymotion\deployed\Google Nexus 5\data.vmdk' cannot be closed because it is still attached to 1 virtual machines}, preserve=false aResultDetail=0
+00:31:50.634254 main     ERROR [COM]: aRC=VBOX_E_OBJECT_IN_USE (0x80bb000c) aIID={ad47ad09-787b-44ab-b343-a082a3f2dfb1} aComponent={MediumWrap} aText={Medium 'C:\Users\ADMIN\AppData\Local\Genymobile\Genymotion\deployed\Google Nexus 5\Snapshots/{01cde764-9d98-4a37-bf93-afac6a6e90bf}.vmdk' cannot be closed because it is still attached to 1 virtual machines}, preserve=false aResultDetail=0
+00:31:50.634263 main     ERROR [COM]: aRC=VBOX_E_OBJECT_IN_USE (0x80bb000c) aIID={ad47ad09-787b-44ab-b343-a082a3f2dfb1} aComponent={MediumWrap} aText={Medium 'C:\Users\ADMIN\AppData\Local\Genymobile\Genymotion\deployed\Google Nexus 5\system.vmdk' cannot be closed because it is still attached to 1 virtual machines}, preserve=false aResultDetail=0
+00:31:50.634653 main     ERROR [COM]: aRC=E_ACCESSDENIED (0x80070005) aIID={6cc49055-dad4-4496-85cf-3f76bcb3b5fa} aComponent={SnapshotWrap} aText={The object is not ready}, preserve=false aResultDetail=0
+00:31:50.700667 main     HostDnsMonitor: shutting down ...
+00:31:50.700736 main     HostDnsMonitor: shut down
+00:31:50.705022 Watcher  ERROR [COM]: aRC=E_ACCESSDENIED (0x80070005) aIID={7682d5eb-f00e-44f1-8ca2-99d08b1cd607} aComponent={VirtualBoxWrap} aText={The object is not ready}, preserve=false aResultDetail=0
+00:31:50.705570 main     VirtualBox: object deleted

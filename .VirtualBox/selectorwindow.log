@@ -1,0 +1,20 @@
+00:00:00.696889 VirtualBox GUI VM Selector Window 7.0.4 r154605 win.amd64 (Nov 16 2022 15:33:13) release log
+00:00:00.696890 Log opened 2023-04-14T04:20:34.632637400Z
+00:00:00.696891 Build Type: release
+00:00:00.696893 OS Product: Windows 11
+00:00:00.696894 OS Release: 10.0.22621
+00:00:00.696894 OS Service Pack: 
+00:00:00.713014 DMI Product Name: ROG Strix G513IM_G513IM
+00:00:00.716836 DMI Product Version: 1.0
+00:00:00.716849 Firmware type: UEFI
+00:00:00.717090 Secure Boot: VERR_PRIVILEGE_NOT_HELD
+00:00:00.717105 Host RAM: 15791MB (15.4GB) total, 6120MB (5.9GB) available
+00:00:00.717111 Executable: C:\Program Files\Oracle\VirtualBox\VirtualBox.exe
+00:00:00.717111 Process ID: 45188
+00:00:00.717111 Package type: WINDOWS_64BITS_GENERIC
+00:00:00.717278 Qt version: 5.15.2
+00:00:00.718760 GUI: UIMediumEnumerator: Initial medium-enumeration finished!
+00:00:00.780007 GUI: UIMediumEnumerator: Medium-enumeration started...
+00:00:03.113389 GUI: UIMediumEnumerator: Medium-enumeration finished!
+00:31:44.441273 GUI: UICommon: Handling aboutToQuit request..
+00:31:45.796254 GUI: UICommon: aboutToQuit request handled!
