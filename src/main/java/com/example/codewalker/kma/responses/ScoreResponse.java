@@ -11,8 +11,8 @@ import lombok.*;
 @Builder
 public class ScoreResponse {
 
-    @JsonProperty("subject_response")
-    private SubjectResponse subjectResponse;
+    @JsonProperty("subject_name")
+    private String subjectName;
 
     @JsonProperty("score_text")
     private String scoreText;

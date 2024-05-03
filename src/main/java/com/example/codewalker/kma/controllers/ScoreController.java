@@ -22,6 +22,7 @@ import java.util.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("${api.prefix}/scores")
+@CrossOrigin(origins = "http://localhost:4200")
 public class ScoreController {
     // Path =  "C:\Users\ADMIN\Downloads\test.pdf"
     private final SubjectService subjectService;

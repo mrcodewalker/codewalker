@@ -28,7 +28,7 @@ public class Schedule {
 
     @Column(name = "day_in_week", nullable = false)
     @JsonProperty("day_in_week")
-    private Integer dayInWeek;
+    private Long dayInWeek;
 
     @Column(name = "lesson_number")
     @JsonProperty("lesson_number")

@@ -3,6 +3,7 @@ package com.example.codewalker.kma.services;
 import com.example.codewalker.kma.models.Score;
 import com.example.codewalker.kma.models.Student;
 import com.example.codewalker.kma.repositories.ScoreRepository;
+import com.example.codewalker.kma.repositories.StudentRepository;
 import com.example.codewalker.kma.responses.ListScoreResponse;
 import com.example.codewalker.kma.responses.ScoreResponse;
 import com.example.codewalker.kma.responses.StudentResponse;
@@ -18,6 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ScoreService implements IScoreService{
     private final ScoreRepository scoreRepository;
+    private final StudentRepository studentRepository;
 
     private final StudentService studentService;
 
@@ -34,9 +36,7 @@ public class ScoreService implements IScoreService{
                     .scoreOverall(clone.getScoreOverall())
                     .scoreFirst(clone.getScoreFirst())
                     .scoreText(clone.getScoreText())
-                    .subjectResponse(SubjectResponse.builder()
-                            .subjectName(clone.getSubject().getSubjectName())
-                            .build())
+                    .subjectName(clone.getSubject().getSubjectName())
                     .build();
             data.add(scoreResponse);
         }
@@ -75,5 +75,10 @@ public class ScoreService implements IScoreService{
     @Override
     public List<Score> findAll() {
         return scoreRepository.findAll();
+    }
+
+    @Override
+    public void updateRanking() {
+
     }
 }

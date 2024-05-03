@@ -4,6 +4,7 @@ import com.example.codewalker.kma.models.Schedule;
 import com.example.codewalker.kma.models.Subject;
 import com.example.codewalker.kma.repositories.ScheduleRepository;
 import com.example.codewalker.kma.repositories.SubjectRepository;
+import com.example.codewalker.kma.responses.ScheduleResponse;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.internal.util.StringHelper;
 import org.modelmapper.internal.Pair;
@@ -59,5 +60,23 @@ public class ScheduleService implements IScheduleService{
                         .build()
         );
         return this.scheduleRepository.save(schedule);
+    }
+
+    @Override
+    public List<ScheduleResponse> findByStudentCourse(String studentCourse) {
+        List<Schedule> list = this.scheduleRepository.findBySubjectNameContainingKeyword(studentCourse);
+        List<ScheduleResponse> ans = new ArrayList<>();
+        for (Schedule schedule : list){
+            ScheduleResponse response = ScheduleResponse.builder()
+                    .lessonNumber(schedule.getLessonNumber())
+                    .dayInWeek(schedule.getDayInWeek())
+                    .subjectCredits(schedule.getSubjectCredits())
+                    .endDay(schedule.getEndDay())
+                    .startDay(schedule.getStartDay())
+                    .subjectName(schedule.getSubjectName())
+                    .build();
+            ans.add(response);
+        }
+        return ans;
     }
 }

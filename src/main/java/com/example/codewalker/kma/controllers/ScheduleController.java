@@ -62,7 +62,7 @@ public class ScheduleController {
         }
     }
     @GetMapping("/schedule")
-    public ResponseEntity<?> getSubjectSchedule(){
-        return ResponseEntity.ok("Everything gonna be OK!");
+    public ResponseEntity<?> getSubjectSchedule(@RequestParam("student_course") String studentCourse){
+        return ResponseEntity.ok(this.scheduleService.findByStudentCourse(studentCourse));
     }
 }
