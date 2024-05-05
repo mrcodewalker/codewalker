@@ -22,6 +22,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("${api.prefix}/schedules")
+@CrossOrigin(origins = "http://localhost:4200")
 public class ScheduleController {
     private final ScheduleService scheduleService;
     @PostMapping("/upload")
